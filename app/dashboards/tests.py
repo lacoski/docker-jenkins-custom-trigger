@@ -3,6 +3,7 @@ from dashboards.models import Blog
 
 # Create your tests here.
 
+
 class DemoTestCase(TestCase):
     def setUp(self):
         Blog.objects.create(name="Demo 123", title="This is demo 123")
