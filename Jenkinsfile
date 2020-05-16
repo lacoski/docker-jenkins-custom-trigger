@@ -6,15 +6,25 @@ node {
     }
 
     stage('Build image') {
+        def flavor = flavor(env.BRANCH_NAME)
+          echo "Building branch ${flavor}"
         app = docker.build("djangobasic:${env.BUILD_ID}", "./app/")
     }
 
-    stage('Run Test Django') {
-        step{
-            app.inside {
-                dir ('app') { 
-                    sh 'python manage.py test'
-                }
+    stage('Test Code Quality') {
+        echo "Testing code quality with flake8"
+        app.inside {
+            dir ('app') { 
+                sh 'flake8 --ignore E501 app/'
+            }
+        }
+    }
+
+    stage('Test Django') {
+        echo "Testing source code Django"
+        app.inside {
+            dir ('app') { 
+                sh 'python manage.py test'
             }
         }
     }
