@@ -6,6 +6,8 @@ node {
     }
 
     stage('Build image') {
+        echo "Building code in branch ${env.BRANCH}"
+        sh 'printenv'
         app = docker.build("djangobasic:${env.BUILD_ID}", "./app/")
     }
 
