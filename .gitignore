@@ -1,0 +1,11 @@
+*.pyc
+*/__pycache__/
+*/.vscode/
+.vscode/
+*/.idea/
+.idea/*
+*/env/
+env/
+*/celery.py
+.pytest_cache/*
+*.sqlite3

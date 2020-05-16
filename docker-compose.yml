@@ -1,0 +1,13 @@
+version: '3.4'
+
+services:
+  web:
+    image: djangoweb
+    build:
+      context: ./app
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - 1234:8000
+    env_file:
+      - ./.env
