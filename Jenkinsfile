@@ -6,8 +6,7 @@ node {
     }
 
     stage('Build image') {
-        def flavor = flavor(env.BRANCH_NAME)
-          echo "Building branch ${flavor}"
+        echo "Building branch ${env.BRANCH_NAME}"
         app = docker.build("djangobasic:${env.BUILD_ID}", "./app/")
     }
 
