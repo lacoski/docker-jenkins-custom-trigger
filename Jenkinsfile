@@ -16,6 +16,7 @@ node {
             updateGitlabCommitStatus(name: 'Build image', state: 'success')
         } catch (ex) {
             updateGitlabCommitStatus(name: 'Build image', state: 'failed')
+            error ex
         }
     }
 
@@ -45,6 +46,7 @@ node {
             updateGitlabCommitStatus(name: 'Test Django', state: 'success')
         } catch (ex) {
             updateGitlabCommitStatus(name: 'Test Django', state: 'failed')
+            error ex
         }
     }
 
@@ -64,6 +66,7 @@ node {
                 }
             } catch (ex) {
                 updateGitlabCommitStatus(name: 'Deploy Django Development', state: 'failed')
+                error ex
             }
         }
 
@@ -82,6 +85,7 @@ node {
                 }
             } catch (ex) {
                 updateGitlabCommitStatus(name: 'Deploy Django Production', state: 'failed')
+                error ex
             }
         }
     }
