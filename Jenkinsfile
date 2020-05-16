@@ -36,6 +36,10 @@ node {
     }
 
     if (env.gitlabActionType == 'PUSH'){
+        stage('Clear all container') {
+            sh '/usr/bin/docker container stop $(docker container ls -aq)'
+            sh '/usr/bin/docker container rm $(docker container ls -aq)'
+        }
         if (env.gitlabSourceBranch == 'develop') {
             stage('Clear old version') {
                 updateGitlabCommitStatus(name: 'Deploy Django Development', state: 'running')
