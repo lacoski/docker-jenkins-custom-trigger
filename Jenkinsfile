@@ -10,9 +10,11 @@ node {
     }
 
     stage('Run Test Django') {
-        app.inside {
-            dir ('app') { 
-                sh 'python manage.py test'
+        step{
+            app.inside {
+                dir ('app') { 
+                    sh 'python manage.py test'
+                }
             }
         }
     }
