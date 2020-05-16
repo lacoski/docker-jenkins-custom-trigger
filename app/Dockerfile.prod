@@ -10,20 +10,43 @@ RUN apt-get install -y postgresql postgresql-contrib libpq-dev
 
 RUN apt install netcat -y
 
-WORKDIR /usr/src/app
+# create directory for the app user
+RUN groupadd app
+RUN useradd app -g app
+
+# create directory for the app user
+RUN mkdir -p /home/app
+
+# create the appropriate directories
+ENV HOME=/home/app
+ENV APP_HOME=/home/app/web
+
+RUN mkdir $APP_HOME
+RUN mkdir $APP_HOME/static
+WORKDIR $APP_HOME
 
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
+# install pip
 RUN pip install --upgrade pip
+COPY requirements-prod.txt $APP_HOME/requirements.txt
 
-COPY requirements.txt /usr/src/app/requirements.txt
+# install python requirements
 RUN pip install -r requirements.txt
 
-COPY . /usr/src/app/
+# copy project
+COPY . $APP_HOME
 
-COPY ./create_user.sh /usr/src/app/create_user.sh
+# copy create_user.sh
+COPY ./create_user.prod.sh $APP_HOME
 
-RUN chmod +x /usr/src/app/create_user.sh
+RUN chmod +x $APP_HOME/create_user.prod.sh
 
-ENTRYPOINT ["bash", "-x", "/usr/src/app/create_user.sh"]
+# chown all the files to the app user
+RUN chown -R app:app $APP_HOME
+
+# change to the app user
+USER app
+
+ENTRYPOINT ["bash", "-x", "/home/app/web/create_user.prod.sh"]

@@ -42,12 +42,12 @@ node {
     if (env.gitlabSourceBranch == 'master') {
         stage('Clear old version') {
             echo "Running source code in a fully containerized environment..."    
-            sh '/usr/local/bin/docker-compose down -v'
+            sh '/usr/local/bin/docker-compose -f docker-compose.prod.yml down -v'
         }
 
         stage('Deploy Source Code in Product Environment') {
             echo "Running source code in a fully containerized environment..."    
-            sh '/usr/local/bin/docker-compose up -d --build'
+            sh '/usr/local/bin/docker-compose -f docker-compose.prod.yml up -d --build'
         }
     }
     
