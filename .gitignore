@@ -6,6 +6,8 @@
 .idea/*
 */env/
 env/
+*/prod-env/
+prod-env/
 */celery.py
 .pytest_cache/*
 *.sqlite3

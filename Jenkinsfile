@@ -6,7 +6,8 @@ node {
     }
 
     stage('Build image') {
-        echo "Building commit ${env.GIT_COMMIT}"
+        echo "Building code in branch ${env.gitlabSourceBranch}"
+        sh 'printenv'
         app = docker.build("djangobasic:${env.BUILD_ID}", "./app/")
     }
 
@@ -26,13 +27,29 @@ node {
         }
     }
 
-    stage('Clear old version') {
-        echo "Running source code in a fully containerized environment..."    
-        sh '/usr/local/bin/docker-compose down -v'
-    }
+    if (env.gitlabActionType == 'PUSH'){
+        if (env.gitlabSourceBranch == 'develop') {
+            stage('Clear old version') {
+                echo "Running source code in a fully containerized environment..."    
+                sh '/usr/local/bin/docker-compose down -v'
+            }
 
-    stage('Deploy Source Code') {
-        echo "Running source code in a fully containerized environment..."    
-        sh '/usr/local/bin/docker-compose up -d --build'
+            stage('Deploy Source Code in Develop Environment') {
+                echo "Running source code in a fully containerized environment..."    
+                sh '/usr/local/bin/docker-compose up -d --build'
+            }
+        } 
+
+        if (env.gitlabSourceBranch == 'master') {
+            stage('Clear old version') {
+                echo "Running source code in a fully containerized environment..."    
+                sh '/usr/local/bin/docker-compose -f docker-compose.prod.yml down -v'
+            }
+
+            stage('Deploy Source Code in Product Environment') {
+                echo "Running source code in a fully containerized environment..."    
+                sh '/usr/local/bin/docker-compose -f docker-compose.prod.yml up -d --build'
+            }
+        }
     }
 }
