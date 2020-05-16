@@ -27,7 +27,7 @@ node {
         }
     }
 
-    if (env.BRANCH_NAME == 'develop') {
+    if (env.gitlabSourceBranch == 'develop') {
         stage('Clear old version') {
             echo "Running source code in a fully containerized environment..."    
             sh '/usr/local/bin/docker-compose down -v'
@@ -37,7 +37,9 @@ node {
             echo "Running source code in a fully containerized environment..."    
             sh '/usr/local/bin/docker-compose up -d --build'
         }
-    } else {
+    } 
+
+    if (env.gitlabSourceBranch == 'master') {
         stage('Clear old version') {
             echo "Running source code in a fully containerized environment..."    
             sh '/usr/local/bin/docker-compose down -v'
