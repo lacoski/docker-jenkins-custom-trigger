@@ -13,9 +13,7 @@ node {
     stage('Test Code Quality') {
         echo "Testing code quality with flake8"
         app.inside {
-            dir ('app') { 
-                sh 'flake8 --ignore E501 app/'
-            }
+            sh 'flake8 --ignore E501 app/'
         }
     }
 
