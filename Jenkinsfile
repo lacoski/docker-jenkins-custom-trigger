@@ -24,7 +24,7 @@ node {
             updateGitlabCommitStatus(name: 'Test Code Quality', state: 'running')
             echo "Testing code quality with flake8"
             app.inside {
-                sh 'flake8 app/'
+                sh 'flake8 --ignore E501 app/'
             }
             updateGitlabCommitStatus(name: 'Test Code Quality', state: 'success')
         } catch (ex) {
