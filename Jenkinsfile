@@ -6,7 +6,7 @@ node {
     }
 
     stage('Build image') {
-        echo "Building branch ${env.GIT_BRANCH}"
+        echo "Building commit ${env.GIT_COMMIT}"
         app = docker.build("djangobasic:${env.BUILD_ID}", "./app/")
     }
 
