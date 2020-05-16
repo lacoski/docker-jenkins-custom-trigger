@@ -21,7 +21,7 @@ node {
         app.inside {
             sh 'flake8 --ignore E501 app/'
         }
-        updateGitlabCommitStatus(name: 'Test Code Quality', state: 'running')
+        updateGitlabCommitStatus(name: 'Test Code Quality', state: 'success')
     }
 
     stage('Test Django') {
@@ -32,7 +32,7 @@ node {
                 sh 'python manage.py test'
             }
         }
-        updateGitlabCommitStatus(name: 'Test Django', state: 'running')
+        updateGitlabCommitStatus(name: 'Test Django', state: 'success')
     }
 
     if (env.gitlabActionType == 'PUSH'){
