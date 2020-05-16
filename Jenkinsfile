@@ -29,6 +29,7 @@ node {
             updateGitlabCommitStatus(name: 'Test Code Quality', state: 'success')
         } catch (ex) {
             updateGitlabCommitStatus(name: 'Test Code Quality', state: 'failed')
+            error ex
         }
     }
 
