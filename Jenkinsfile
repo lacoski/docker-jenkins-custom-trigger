@@ -56,7 +56,7 @@ node {
                 stage('Clear old version') {
                     updateGitlabCommitStatus(name: 'Deploy Django Development', state: 'running')
                     echo "Running source code in a fully containerized environment..."    
-                    sh '/usr/local/bin/docker-compose down'
+                    sh '/usr/local/bin/docker-compose down -v --remove-orphans'
                 }
 
                 stage('Deploy Source Code in Develop Environment') {
@@ -75,7 +75,7 @@ node {
                 stage('Clear old version') {
                     updateGitlabCommitStatus(name: 'Deploy Django Production', state: 'running')
                     echo "Running source code in a fully containerized environment..."    
-                    sh '/usr/local/bin/docker-compose -f docker-compose.prod.yml down'
+                    sh '/usr/local/bin/docker-compose -f docker-compose.prod.yml down -v --remove-orphans'
                 }
 
                 stage('Deploy Source Code in Product Environment') {
